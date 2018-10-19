@@ -58,6 +58,11 @@ namespace MeetingRoomTracker
             {
                 try
                 {
+                    if (temperature.Contains(","))
+                    {
+                        temperature = temperature.Replace(",", ".");
+                    }
+              
                     temp = double.Parse(temperature);
                 }
                 catch (Exception)
@@ -104,7 +109,7 @@ namespace MeetingRoomTracker
 
             if (temp != null)
             {
-                entry.temperature = (int)temp;
+                entry.temperature = temp;
             }
 
 
