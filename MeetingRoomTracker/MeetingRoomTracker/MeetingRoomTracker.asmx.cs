@@ -77,6 +77,12 @@ namespace MeetingRoomTracker
                 }
             }
 
+            if (currentUser == null && attendnats != null)
+            {
+                throw new Exception("Attendance tracking is not supported while the meeting room is free!");
+            }
+
+
 
             MeetingRoomEntry entry = new MeetingRoomEntry()
             {
@@ -92,6 +98,9 @@ namespace MeetingRoomTracker
             {
                 entry.numberOfParticipants = attendnats;
             }
+
+
+
 
             if (temp != null)
             {
