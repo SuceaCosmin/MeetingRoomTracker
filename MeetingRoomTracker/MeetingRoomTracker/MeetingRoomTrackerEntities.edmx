@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MeetingRoomTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MeetingRoomEntry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="teamId" Type="int" />
+          <Property Name="numberOfParticipants" Type="int" />
+          <Property Name="temperature" Type="float" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="occupiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Team" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CardId" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_MeetingRoomEntry_Team">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="MeetingRoomEntry" Type="Self.MeetingRoomEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MeetingRoomEntry">
+              <PropertyRef Name="occupiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingRoomEntry_Team1">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="MeetingRoomEntry" Type="Self.MeetingRoomEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingRoomEntry">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MeetingRoomTrackerModelStoreContainer">
+          <EntitySet Name="MeetingRoomEntry" EntityType="Self.MeetingRoomEntry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MeetingRoomEntry_Team" Association="Self.FK_MeetingRoomEntry_Team">
+            <End Role="User" EntitySet="User" />
+            <End Role="MeetingRoomEntry" EntitySet="MeetingRoomEntry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingRoomEntry_Team1" Association="Self.FK_MeetingRoomEntry_Team1">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="MeetingRoomEntry" EntitySet="MeetingRoomEntry" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MeetingRoomTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MeetingRoomEntry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="teamId" Type="Int32" />
+          <Property Name="numberOfParticipants" Type="Int32" />
+          <Property Name="temperature" Type="Double" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="occupiedBy" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK_MeetingRoomEntry_Team" FromRole="MeetingRoomEntry" ToRole="User" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_MeetingRoomEntry_Team1" FromRole="MeetingRoomEntry" ToRole="Team" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Team1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MeetingRoomEntries" Relationship="Self.FK_MeetingRoomEntry_Team1" FromRole="Team" ToRole="MeetingRoomEntry" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CardId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="MeetingRoomEntries" Relationship="Self.FK_MeetingRoomEntry_Team" FromRole="User" ToRole="MeetingRoomEntry" />
+        </EntityType>
+        <Association Name="FK_MeetingRoomEntry_Team">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="MeetingRoomEntry" Type="Self.MeetingRoomEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MeetingRoomEntry">
+              <PropertyRef Name="occupiedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MeetingRoomEntry_Team1">
+          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+          <End Role="MeetingRoomEntry" Type="Self.MeetingRoomEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MeetingRoomEntry">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MeetingRoomTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MeetingRoomEntries" EntityType="Self.MeetingRoomEntry" />
+          <EntitySet Name="Teams" EntityType="Self.Team" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_MeetingRoomEntry_Team" Association="Self.FK_MeetingRoomEntry_Team">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MeetingRoomEntry" EntitySet="MeetingRoomEntries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MeetingRoomEntry_Team1" Association="Self.FK_MeetingRoomEntry_Team1">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="MeetingRoomEntry" EntitySet="MeetingRoomEntries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MeetingRoomTrackerModelStoreContainer" CdmEntityContainer="MeetingRoomTrackerEntities">
+          <EntitySetMapping Name="MeetingRoomEntries">
+            <EntityTypeMapping TypeName="MeetingRoomTrackerModel.MeetingRoomEntry">
+              <MappingFragment StoreEntitySet="MeetingRoomEntry">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+                <ScalarProperty Name="numberOfParticipants" ColumnName="numberOfParticipants" />
+                <ScalarProperty Name="temperature" ColumnName="temperature" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="occupiedBy" ColumnName="occupiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="MeetingRoomTrackerModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Team1" ColumnName="Team" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MeetingRoomTrackerModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

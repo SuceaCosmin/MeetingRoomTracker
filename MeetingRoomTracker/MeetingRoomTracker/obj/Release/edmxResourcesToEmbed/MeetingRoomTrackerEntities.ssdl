@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MeetingRoomTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="MeetingRoomEntry">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="teamId" Type="int" />
+    <Property Name="numberOfParticipants" Type="int" />
+    <Property Name="temperature" Type="float" />
+    <Property Name="date" Type="datetime" />
+    <Property Name="occupiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Team">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Team" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CardId" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_MeetingRoomEntry_Team">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="MeetingRoomEntry" Type="Self.MeetingRoomEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="MeetingRoomEntry">
+        <PropertyRef Name="occupiedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MeetingRoomEntry_Team1">
+    <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
+    <End Role="MeetingRoomEntry" Type="Self.MeetingRoomEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MeetingRoomEntry">
+        <PropertyRef Name="teamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MeetingRoomTrackerModelStoreContainer">
+    <EntitySet Name="MeetingRoomEntry" EntityType="Self.MeetingRoomEntry" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_MeetingRoomEntry_Team" Association="Self.FK_MeetingRoomEntry_Team">
+      <End Role="User" EntitySet="User" />
+      <End Role="MeetingRoomEntry" EntitySet="MeetingRoomEntry" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MeetingRoomEntry_Team1" Association="Self.FK_MeetingRoomEntry_Team1">
+      <End Role="Team" EntitySet="Team" />
+      <End Role="MeetingRoomEntry" EntitySet="MeetingRoomEntry" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

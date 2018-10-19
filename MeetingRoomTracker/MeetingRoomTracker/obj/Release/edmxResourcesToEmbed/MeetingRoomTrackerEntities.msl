@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MeetingRoomTrackerModelStoreContainer" CdmEntityContainer="MeetingRoomTrackerEntities">
+    <EntitySetMapping Name="MeetingRoomEntries">
+      <EntityTypeMapping TypeName="MeetingRoomTrackerModel.MeetingRoomEntry">
+        <MappingFragment StoreEntitySet="MeetingRoomEntry">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="teamId" ColumnName="teamId" />
+          <ScalarProperty Name="numberOfParticipants" ColumnName="numberOfParticipants" />
+          <ScalarProperty Name="temperature" ColumnName="temperature" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="occupiedBy" ColumnName="occupiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teams">
+      <EntityTypeMapping TypeName="MeetingRoomTrackerModel.Team">
+        <MappingFragment StoreEntitySet="Team">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Team1" ColumnName="Team" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="MeetingRoomTrackerModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CardId" ColumnName="CardId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
